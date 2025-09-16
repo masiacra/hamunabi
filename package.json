@@ -1,0 +1,21 @@
+{
+  "name": "hamunabi",
+  "version": "0.0.1",
+  "description": "Faraon simulator game. Could change in the future",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/masiacra/hamunabi/issues"
+  },
+  "homepage": "https://github.com/masiacra/hamunabi#readme",
+  "devDependencies": {
+    "@types/node": "24.4.0"
+  }
+}
