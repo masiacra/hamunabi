@@ -1,4 +1,3 @@
-// @ts-check
 import { createInterface } from "node:readline/promises";
 
 const readlineInterface = createInterface({
@@ -7,108 +6,86 @@ const readlineInterface = createInterface({
 });
 /**
  * общее количество зерна
- * @type {number}
  */
-let harvest_total;
+let harvest_total: number;
 /**
  * сколько зерна принес один акр земли
- * @type {number}
  */
-let harvest;
+let harvest: number;
 /**
  * зерно, чтобы накормить людей
- * @type {number}
  */
-let food;
+let food: number;
 /**
  * номер года
- * @type {number}
  */
-let year;
+let year: number;
 /**
  * число акров земли во владении
- * @type {number}
  */
-let land;
+let land: number;
 /**
  * съедено крысами
- * @type {number}
  */
-let rats;
+let rats: number;
 /**
  * число умерших от голода в прошлом году
- * @type {number}
  */
-let starved;
+let starved: number;
 /**
  * население
- * @type {number}
  */
-let population;
+let population: number;
 /**
  * сколько всего человек умерло от голода
- * @type {number}
  */
-let died_total;
+let died_total: number;
 /**
  * средний процент умерших от голода за все годы
- * @type {number}
  */
-let percent_died;
+let percent_died: number;
 /**
  * число людей, прибывших в город в прошлом году
- * @type {number}
  */
-let people_came;
+let people_came: number;
 /**
  * зерно в хранилищах
- * @type {number}
  */
-let grain;
+let grain: number;
 
-/**
- *
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-export const getRandomInteger = (min, max) => {
+export const getRandomInteger = (min: number, max: number): number => {
   min = Math.ceil(min);
   max = Math.floor(max);
 
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-function quit() {
+function quit(): void {
   console.log("\n\n\n До встречи.\n\n");
   readlineInterface.close();
   process.exit(1);
 }
 
-function prinNotEnoughGrain() {
+function prinNotEnoughGrain(): void {
   console.log(`Подумайте еще раз. У Вас всего ${grain} бушелей зерна.`);
 }
 
-function printNotEnoughLand() {
+function printNotEnoughLand(): void {
   console.log(`Подумайте еще, у Вас есть только ${land} акров земли.`);
 }
 
-function endGameBad() {
+function endGameBad(): void {
   console.log(
     "Ваше правление было ужасным, \n Вас объявили национальным предателем и изгнали из резиденции!!!\n"
   );
   quit();
 }
 
-/**
- *
- * @param {string} question
- */
-function input(question) {
+function input(question: string): Promise<string> {
   return readlineInterface.question(question);
 }
 
-async function tradeLand() {
+async function tradeLand(): Promise<void> {
   let cost = getRandomInteger(17, 27);
   console.log(`Стоимость земли сейчас составляет ${cost} бушелей за акр.`);
   let byusell = 0;
@@ -136,7 +113,7 @@ async function tradeLand() {
   grain = grain - cost * byusell;
 }
 
-async function feedPeople() {
+async function feedPeople(): Promise<void> {
   console.log("");
   while (true) {
     food = Number(
@@ -160,7 +137,7 @@ async function feedPeople() {
 /**
  * сколько зерна будет посеяно
  */
-async function plantSeeds() {
+async function plantSeeds(): Promise<void> {
   console.log("");
   let plant = 0;
 
@@ -194,7 +171,7 @@ async function plantSeeds() {
   harvest_total = plant * harvest;
 }
 
-function ratsInvasion() {
+function ratsInvasion(): void {
   rats = 0;
   const chance = getRandomInteger(1, 6);
 
@@ -204,11 +181,11 @@ function ratsInvasion() {
   grain -= rats;
 }
 
-function harvestGrain() {
+function harvestGrain(): void {
   grain = grain + harvest_total;
 }
 
-function changePopulation() {
+function changePopulation(): void {
   people_came =
     Math.floor(
       Math.floor((getRandomInteger(1, 6) * (20 * land + grain)) / population) /
@@ -234,14 +211,14 @@ function changePopulation() {
   population += people_came;
 }
 
-function plague() {
+function plague(): void {
   if (year > 1 && getRandomInteger(0, 99) < 15) {
     population = Math.floor(population * 0.5);
     console.log("\n Эпидемия чумы! Половина населения умерла.");
   }
 }
 
-function report() {
+function report(): void {
   console.log("\nХаммурапи, сообщаю Вам, ");
   console.log(
     `в прошлом ${year} году ${starved} людей умерли от голода, ${people_came} прибыло в город.`
@@ -298,7 +275,7 @@ people_came = 5;
 percent_died = 0;
 died_total = 0;
 
-async function main() {
+async function main(): Promise<void> {
   while (true) {
     year += 1;
     plague();

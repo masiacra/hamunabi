@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/masiacra/hamunabi#readme",
   "devDependencies": {
-    "@types/node": "24.4.0"
+    "@types/node": "24.4.0",
+    "typescript": "5.9.2"
   }
 }
